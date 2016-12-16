@@ -35,3 +35,61 @@
 //     that.apply(context, args3);
 //   };
 // };
+
+// function curriedSum(numArgs){
+//   let numbers = [];
+//   function _curriedSum(num){
+//     numbers.push(num);
+//     numArgs --;
+//     if (numArgs === 0){
+//       return numbers.reduce((num1,num2) => num1 + num2);
+//     }
+//     else{
+//       return _curriedSum;
+//     }
+//   }
+//   return _curriedSum;
+// }
+//
+// const sum = curriedSum(4);
+// console.log(sum(5)(30)(20)(1));
+
+
+Function.prototype.curry = function(numArgs){
+  let args = [];
+  let that = this;
+  function _curry(arg){
+    args.push(arg);
+    numArgs --;
+    if (numArgs === 0){
+      return that.apply(that, args);
+    }
+    else{
+      return _curry;
+    }
+  }
+  return _curry;
+};
+
+
+Function.prototype.curry = function(numArgs){
+  let args = [];
+  let that = this;
+  function _curry(arg){
+    args.push(arg);
+    numArgs --;
+    if (numArgs === 0){
+      return that(...args);
+    }
+    else{
+      return _curry;
+    }
+  }
+  return _curry;
+};
+
+
+function sums(num1, num2, num3) {
+  return num1 + num2 + num3;
+}
+console.log(sums.curry(3)(1)(2)(3));
